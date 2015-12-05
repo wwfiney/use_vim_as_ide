@@ -17,8 +17,8 @@ filetype plugin on
 " vim 自身（非插件）快捷键
 
 " 定义快捷键到行首和行尾
-nmap <Leader>lb 0
-nmap <Leader>le $
+nmap lb 0
+nmap le $
 
 " 设置快捷键将选中文本块复制至系统剪贴板
 vnoremap <Leader>y "+y
@@ -33,18 +33,26 @@ nmap <Leader>w :w<CR>
 nmap <Leader>WQ :wa<CR>:q<CR>
 " 不做任何保存，直接退出 vim
 nmap <Leader>Q :qa!<CR>
+" Resize window
+nnoremap <Leader>> <C-w>>
+nnoremap <Leader>< <C-w><
+
 
 " 设置快捷键遍历子窗口
 " 依次遍历
 nnoremap nw <C-W><C-W>
 " 跳转至右方的窗口
 nnoremap <Leader>lw <C-W>l
+nnoremap <Leader><Leader>l <C-W>l
 " 跳转至方的窗口
 nnoremap <Leader>hw <C-W>h
+nnoremap <Leader><Leader>h <C-W>h
 " 跳转至上方的子窗口
 nnoremap <Leader>kw <C-W>k
+nnoremap <Leader><Leader>k <C-W>k
 " 跳转至下方的子窗口
 nnoremap <Leader>jw <C-W>j
+nnoremap <Leader><Leader>j <C-W>j
 
 " 定义快捷键在结对符之间跳转，助记 pair
 nmap <Leader>pa %
@@ -76,9 +84,12 @@ execute pathogen#infect()
 
 " 配色方案
 set background=dark
-colorscheme solarized
-"colorscheme molokai
+"colorscheme solarized
+colorscheme molokai
 "colorscheme phd
+"colorscheme darkblue2
+"colorscheme cthulhian
+"colorscheme oceandeep
 
 " >>
 " 营造专注气氛
@@ -132,7 +143,7 @@ set hlsearch
 " 其他美化
 
 " 设置 gvim 显示字体
-set guifont=YaHei\ Consolas\ Hybrid\ 10.5
+set guifont=YaHei\ Consolas\ Hybrid\ 11.5
 
 " 禁止折行
 set nowrap
@@ -159,17 +170,17 @@ syntax on
 filetype indent on
 
 " 将制表符扩展为空格
-set expandtab
+"set expandtab
 " 设置编辑时制表符占用空格数
-set tabstop=4
+"set tabstop=4
 " 设置格式化时制表符占用空格数
-set shiftwidth=4
+set shiftwidth=8
 " 让 vim 把连续数量的空格视为一个制表符
-set softtabstop=4
+"set softtabstop=4
 
 " 缩进可视化插件 Indent Guides
 " 随 vim 自启动
-let g:indent_guides_enable_on_vim_startup=1
+"let g:indent_guides_enable_on_vim_startup=1
 " 从第二层开始可视化显示缩进
 let g:indent_guides_start_level=2
 " 色块宽度
@@ -368,10 +379,9 @@ let g:ycm_complete_in_comments=1
 let g:ycm_confirm_extra_conf=0
 
 " 开启 YCM 标签补全引擎
-let g:ycm_collect_identifiers_from_tags_files=0
-"" 引入 C++ 标准库 tags
+let g:ycm_collect_identifiers_from_tags_files=1
+" 引入 C++ 标准库 tags
 "set tags+=/data/misc/software/app/vim/stdcpp.tags
-"set tags+=/data/misc/software/app/vim/sys.tags
 
 " YCM 集成 OmniCppComplete 补全引擎，设置其快捷键
 inoremap <leader>; <C-x><C-o>
@@ -388,6 +398,10 @@ let g:ycm_cache_omnifunc=0
 " 语法关键字补全
 let g:ycm_seed_identifiers_with_syntax=1
 
+" try to work with syntastic
+"let g:ycm_register_as_syntastic_checker = 0
+"let g:ycm_show_diagnostics_ui = 0
+
 " <<
  
 " 静态分析器 syntastic 错误标识
@@ -398,7 +412,7 @@ let g:syntastic_warning_symbol = '⚠'
 " 由接口快速生成实现框架
 
 " 设置 pullproto.pl 脚本路径
-let g:protodefprotogetter='~/.vim/bundle/vim-protodef/pullproto.pl'
+"let g:protodefprotogetter='~/.vim/bundle/vim-protodef/pullproto.pl'
 
 " 成员函数的实现顺序与声明顺序一致
 let g:disable_protodef_sorting=1
@@ -441,8 +455,8 @@ let NERDTreeAutoDeleteBuffer=1
 map <Leader>bl :MBEToggle<cr>
 
 " buffer 切换快捷键
-map <C-Tab> :MBEbn<cr>
-map <C-S-Tab> :MBEbp<cr>
+map <A-x> :MBEbn<cr>
+map <A-z> :MBEbp<cr>
 
 " <<
 
@@ -453,7 +467,7 @@ map <C-S-Tab> :MBEbp<cr>
 " 设置环境保存项
 set sessionoptions="blank,globals,localoptions,tabpages,sesdir,folds,help,options,resize,winpos,winsize"
 
-" 保存 undo 历史。必须先行创建 .undo_history/
+" 保存 undo 历史
 set undodir=~/.undo_history/
 set undofile
 
@@ -468,8 +482,8 @@ map <leader>rs :source my.vim<cr>
 " <<
  
 " 设置快捷键实现一键编译及运行
-nmap <Leader>m :wa<CR> :cd build/<CR> :!rm -rf main<CR> :!cmake CMakeLists.txt<CR>:make<CR><CR> :cw<CR> :cd ..<CR>
-nmap <Leader>g :wa<CR>:cd build/<CR>:!rm -rf main<CR>:!cmake CMakeLists.txt<CR>:make<CR><CR>:cw<CR>:cd ..<CR>:!build/main<CR>
+"nmap <Leader>m :wa<CR> :cd build/<CR> :!rm -rf main<CR> :!cmake CMakeLists.txt<CR>:make<CR><CR> :cw<CR> :cd ..<CR>
+"nmap <Leader>g :wa<CR>:cd build/<CR>:!rm -rf main<CR>:!cmake CMakeLists.txt<CR>:make<CR><CR>:cw<CR>:cd ..<CR>:!build/main<CR>
 
 " >>
 " 快速选中结对符内的文本
