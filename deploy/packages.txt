@@ -1,0 +1,6 @@
+build-essential
+git
+vim
+wmctrl
+ack-grep
+cmake
