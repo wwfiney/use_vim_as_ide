@@ -1,24 +1,85 @@
-" 更新时间：2015-01-18 21:30:31
+set nocompatible              " be iMproved, required
+filetype off                  " required
 
-" 定义快捷键的前缀，即 <Leader>
-let mapleader=";"
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
 
-" >>
-" 文件类型侦测
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
 
-" 开启文件类型侦测
-filetype on
-" 根据侦测到的不同类型加载对应的插件
-filetype plugin on
+" The following are examples of different formats supported.
+" Keep Plugin commands between vundle#begin/end.
+" plugin on GitHub repo
+" Plugin 'tpope/vim-fugitive'
+" plugin from http://vim-scripts.org/vim/scripts.html
+" Plugin 'L9'
+" Git plugin not hosted on GitHub
+" Plugin 'git://git.wincent.com/command-t.git'
+" git repos on your local machine (i.e. when working on your own plugin)
+" Plugin 'file:///home/gmarik/path/to/plugin'
+" The sparkup vim script is in a subdirectory of this repo called vim.
+" Pass the path to set the runtimepath properly.
+" Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+" Avoid a name conflict with L9
+" Plugin 'user/L9', {'name': 'newL9'}
+
+" plugins
+Plugin 'tpope/vim-fugitive'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'Mizuchi/STL-Syntax'
+Plugin 'vim-scripts/a.vim'
+Plugin 'kshenoy/vim-signature'
+Plugin 'vim-scripts/vimprj'
+Plugin 'vim-scripts/DfrankUtil'
+" Plugin 'wwfiney/indexer'
+Plugin 'majutsushi/tagbar'
+Plugin 'yegappan/grep'
+Plugin 'mileszs/ack.vim'
+Plugin 'dyng/ctrlsf.vim'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'SirVer/ultisnips'
+"Plugin 'Valloric/YouCompleteMe'
+Plugin 'scrooloose/nerdtree'
+Plugin 'fholgado/minibufexpl.vim'
+Plugin 'scrooloose/syntastic'
+Plugin 'gcmt/wildfire.vim'
+Plugin 'easymotion/vim-easymotion'
+"Plugin 'suan/vim-instant-markdown'
+
+" colors
+Plugin 'tomasr/molokai'
+Plugin 'altercation/vim-colors-solarized'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+"
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
 
 " <<
-
+" 定义快捷键的前缀，即 <Leader>
+let mapleader=";"
 " >>
 " vim 自身（非插件）快捷键
 
 " 定义快捷键到行首和行尾
-nmap lb 0
-nmap le $
+nmap <Leader>b 0
+nmap <Leader>e $
 
 " 设置快捷键将选中文本块复制至系统剪贴板
 vnoremap <Leader>y "+y
@@ -40,22 +101,39 @@ nnoremap <Leader>< <C-w><
 
 " 设置快捷键遍历子窗口
 " 依次遍历
-nnoremap nw <C-W><C-W>
+"nnoremap nw <C-W><C-W>
 " 跳转至右方的窗口
 nnoremap <Leader>lw <C-W>l
-nnoremap <Leader><Leader>l <C-W>l
+nnoremap <Leader><C-l> <C-W>l
 " 跳转至方的窗口
 nnoremap <Leader>hw <C-W>h
-nnoremap <Leader><Leader>h <C-W>h
+nnoremap <Leader><C-h> <C-W>h
 " 跳转至上方的子窗口
 nnoremap <Leader>kw <C-W>k
-nnoremap <Leader><Leader>k <C-W>k
+nnoremap <Leader><C-k> <C-W>k
 " 跳转至下方的子窗口
 nnoremap <Leader>jw <C-W>j
-nnoremap <Leader><Leader>j <C-W>j
+nnoremap <Leader><C-j> <C-W>j
 
 " 定义快捷键在结对符之间跳转，助记 pair
 nmap <Leader>pa %
+
+" git plugins
+nnoremap <Leader>gs :Gstatus<CR>
+nnoremap <Leader>gb :Gblame<CR>
+nnoremap <Leader>gd :Gdiff<CR>
+nnoremap <Leader>gr :Gread<CR>
+nnoremap <Leader>gw :Gwrite<CR>
+nnoremap <Leader>gc :Gcommit<CR>
+nmap <A-q> [c
+nmap <A-w> ]c
+
+" air-line configuration
+let g:airline_left_sep = '▶'
+let g:airline_right_sep = '◀'
+let g:airline_section_error = ''
+let g:airline_section_warning = ''
+let g:airline_section_b = '%{fugitive#statusline()}'
 
 " <<
 
@@ -78,14 +156,20 @@ set wildmenu
 
 " 插件管理
 " 将 pathogen 自身也置于独立目录中，需指定其路径
-runtime bundle/vim-pathogen/autoload/pathogen.vim
+"runtime bundle/pathogen/autoload/pathogen.vim
 " 运行 pathogen
-execute pathogen#infect()
+"execute pathogen#infect()
 
 " 配色方案
 set background=dark
-"colorscheme solarized
-colorscheme molokai
+if has('gui_running')
+    let g:airline_theme='base16_solarized'
+    colorscheme solarized
+else
+    let g:airline_theme='molokai'
+    colorscheme molokai
+endif
+"colorscheme molokai
 "colorscheme phd
 "colorscheme darkblue2
 "colorscheme cthulhian
@@ -143,13 +227,15 @@ set hlsearch
 " 其他美化
 
 " 设置 gvim 显示字体
-set guifont=YaHei\ Consolas\ Hybrid\ 11.5
+" set guifont=YaHei\ Consolas\ Hybrid\ 14
+"set guifont=Monospace\ 13
+set guifont=DejaVuSansMono\ 13
 
 " 禁止折行
 set nowrap
 
 " 设置状态栏主题风格
-let g:Powerline_colorscheme='solarized256'
+" let g:Powerline_colorscheme='solarized256'
 
 " <<
 
@@ -250,6 +336,7 @@ let g:SignatureMap = {
 " 默认 --c++-kinds=+p+l，重新设置为 --c++-kinds=+l+p+x+c+d+e+f+g+m+n+s+t+u+v
 " 默认 --fields=+iaS 不满足 YCM 要求，需改为 --fields=+iaSl
 let g:indexer_ctagsCommandLineOptions="--c++-kinds=+l+p+x+c+d+e+f+g+m+n+s+t+u+v --fields=+iaSl --extra=+q"
+let g:indexer_disableCtagsWarning=1
 
 " 正向遍历同名标签
 nmap <Leader>tn :tnext<CR>
@@ -261,6 +348,12 @@ nmap <Leader>tp :tprevious<CR>
 nnoremap <leader>jd :YcmCompleter GoToDeclaration<CR>
 " 只能是 #include 或已打开的文件
 nnoremap <leader>je :YcmCompleter GoToDefinition<CR>
+" Jump to the specific header
+nnoremap <leader>ji :YcmCompleter GoToInclude<CR>
+" Get type
+nnoremap <leader>t :YcmCompleter GetType<CR>
+" Fix it
+nnoremap <leader>fx :YcmCompleter FixIt<CR>
 
 " <<
 
@@ -317,6 +410,7 @@ let g:tagbar_type_cpp = {
 
 " 使用 ctrlsf.vim 插件在工程内全局查找光标所在关键字，设置快捷键。快捷键速记法：search in project
 nnoremap <Leader>sp :CtrlSF<CR>
+nnoremap <Leader>so :CtrlSFOpen<CR>
 
 " <<
 
@@ -390,7 +484,7 @@ inoremap <leader>; <C-x><C-o>
 set completeopt-=preview
 
 " 从第一个键入字符就开始罗列匹配项
-let g:ycm_min_num_of_chars_for_completion=1
+let g:ycm_min_num_of_chars_for_completion=2
 
 " 禁止缓存匹配项，每次都重新生成匹配项
 let g:ycm_cache_omnifunc=0
@@ -452,11 +546,11 @@ let NERDTreeAutoDeleteBuffer=1
 " 多文档编辑
  
 " 显示/隐藏 MiniBufExplorer 窗口
-map <Leader>bl :MBEToggle<cr>
+map <Leader>mbl :MBEToggle<cr>
 
 " buffer 切换快捷键
-map <A-x> :MBEbn<cr>
-map <A-z> :MBEbp<cr>
+nmap <c-l> :MBEbn<cr>
+nmap <c-k> :MBEbp<cr>
 
 " <<
 
@@ -519,3 +613,7 @@ endfunction
 vnoremap <Leader>he :call HtmlEscape()<CR>
 
 " <<
+"
+
+" 80 columns mark
+let &colorcolumn=join(range(81,999),",")
